@@ -1,0 +1,17 @@
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
+
+brew 'cmake'
+brew 'git'
+brew 'neovim'
+brew 'ripgrep'
+brew 'trash'
+brew 'tree'
+
+cask 'appcleaner'
+cask 'discord'
+cask 'google-chrome'
+cask 'iterm2'
+cask 'rectangle'
+cask 'spotify'
+cask 'visual-studio-code'

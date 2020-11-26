@@ -1,0 +1,20 @@
+[include]
+    path = ~/.gitconfig.local
+
+[core]
+    editor = nvim
+
+[push]
+    default = simple
+
+[alias]
+    undo = reset --soft HEAD~1
+    discard = reset --hard HEAD
+    ammend = commit --amend --reuse-message=HEAD
+    ci = commit
+    ch = checkout
+    df = diff
+    st = status
+
+[pull]
+    rebase = true

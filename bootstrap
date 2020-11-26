@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+
+script_dir="$(cd $(dirname $0) && pwd)"
+source "$script_dir/etc/utility.sh"
+
+install_packages() {
+    if ! installed brew; then
+        info_message "Installing Homebrew"
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+        brew analytics off
+    fi
+
+    info_message "Installing software packages"
+    brew bundle -v --no-lockfile --file="$script_dir/etc/Brewfile"
+    brew cleanup
+}
+
+symlink() {
+    local config_dir="$HOME/.config"
+    mkdir -p "$config_dir"
+
+    info_message "Symlinking files"
+    link "$script_dir/home/zshrc"       "$HOME/.zshrc"
+    link "$script_dir/home/zshenv"      "$HOME/.zshenv"
+    link "$script_dir/home/gitconfig"   "$HOME/.gitconfig"
+    link "$script_dir/nvim"             "$config_dir/nvim"
+}
+
+nvim_plugins() {
+    if ! installed nvim; then
+        return 0
+    fi
+
+    info_message "Installing Neovim plugins"
+
+    local plug_path="$HOME/.local/share/nvim/site/autoload"
+    if [ ! -d "$plug_path" ]; then
+        pushd "$plug_path" > /dev/null
+        curl -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        popd > /dev/null
+    fi
+
+    nvim -c +PlugInstall +qa!
+}
+
+system_settings() {
+    info_message "Adjusting system settings"
+    source "$script_dir/etc/macos-defaults.sh"
+}
+
+help_message() {
+    printf "Usage: %s [options]\n" "$(basename $0)"
+    printf "Options:\n"
+    printf "  -a,  --all                    Perform all actions\n"
+    printf "  -h,  --help                   Display this help message\n"
+    printf "  -l,  --link                   Generate symbolic links\n"
+    printf "  -n,  --nvim-plugins           Install Neovim plugins\n"
+    printf "  -p,  --packages               Install software packages\n"
+    printf "  -s,  --settings               Adjust system and application settings\n"
+    exit 1
+}
+
+if [ "$#" -eq 0 ]; then
+    printf "$(basename $0): "
+    error_message "no flags were specified"
+    help_message
+else
+    for flag in "$@"; do
+        case $flag in
+        -a|--all)
+            packages
+            symlink
+            nvim_plugins
+            system_settings
+            shift;;
+        -h|--help)
+            print_help
+            shift;;
+        -l|--link-files)
+            symlink
+            shift;;
+        -n|--nvim-plugins)
+            nvim_plugins
+            shift;;
+        -p|--pacakges)
+            packages
+            shift;;
+        -s|--settings)
+            system_settings
+            shift;;
+        *)
+            printf "$(basename $0): "
+            error_message "invalid flag \'$flag\'"
+            help_message
+            shift;;
+        esac
+    done
+fi
