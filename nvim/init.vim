@@ -107,12 +107,10 @@ colorscheme xcodedark
 
 " Statusline ===============================================
 
-set statusline=\ %n\ \|                        " buffer number
-set statusline+=\ %<%f                         " file (truncates to the left)
-set statusline+=%{&modified?'\ \|\ ✻\ ':''}    " file status
-set statusline+=%{&readonly?'\ \|\ RO\ ':''}   " read-only status
-set statusline+=%=                             " switch side
-set statusline+=\ %2l:%2c\ (%P)\ %*            " (buffer %) row:column
+set statusline=\ %<%f           " filename (truncates to the left)
+set statusline+=\ %M\ %R        " modified/readonly flags
+set statusline+=%=              " switch side
+set statusline+=%l:%2c%6P\ %*   " line:colum & buffer percentage
 
 " vim-signify ==============================================
 
