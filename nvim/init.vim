@@ -3,7 +3,6 @@
 call plug#begin(stdpath('data') . '/plugged')
 
 " general
-Plug 'gruvbox-community/gruvbox'
 Plug 'arzg/vim-colors-xcode'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -104,9 +103,7 @@ augroup terminal_buffer_settings
     autocmd TermOpen * setlocal signcolumn=no nonumber nocursorline nocursorcolumn listchars=
 augroup END
 
-let g:gruvbox_sign_column="bg0"
-let g:gruvbox_invert_selection=0
-colorscheme gruvbox
+colorscheme xcodedark
 
 " Statusline ===============================================
 
