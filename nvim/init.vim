@@ -83,7 +83,7 @@ augroup filetype_settings
     autocmd!
     autocmd BufRead,BufNewFile .clang* setfiletype yaml
     autocmd BufRead,BufNewFile Brewfile setfiletype ruby
-    autocmd FileType c,cplusplus setlocal commentstring=//\ %s
+    autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
 
 augroup file_save_settings
