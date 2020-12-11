@@ -155,20 +155,24 @@ nnoremap <leader>fr :FzfRg<CR>
 
 let g:lsp_semantic_enabled=1
 
-fun! LSPBufferSettings()
-    setlocal signcolumn=yes
+fun! LSPBufferSettings() abort
     setlocal omnifunc=lsp#complete
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    setlocal signcolumn=yes
 
-    nnoremap <buffer> <leader>ld <plug>(lsp-definition)
-    nnoremap <buffer> <leader>lr <plug>(lsp-references)
-    nnoremap <buffer> <leader>li <plug>(lsp-implementation)
-    nnoremap <buffer> <leader>lr <plug>(lsp-rename)
-    nnoremap <buffer> <leader>lf <plug>(lsp-document-format)
-    nnoremap <buffer> <leader>lg <plug>(lsp-document-range-format)
-    nnoremap <buffer> <leader>lh <plug>(lsp-hover)
-    nnoremap <buffer> <leader>l[ <plug>(lsp-previous-diagnostic)
-    nnoremap <buffer> <leader>l] <plug>(lsp-next-diagnostic)
+    nmap <buffer> <leader>ld <plug>(lsp-definition)
+    nmap <buffer> <leader>lr <plug>(lsp-references)
+    nmap <buffer> <leader>li <plug>(lsp-implementation)
+    vmap <buffer> <leader>lf <plug>(lsp-document-range-format)
+    nmap <buffer> <leader>lF <plug>(lsp-document-format)
+    nmap <buffer> <leader>lR <plug>(lsp-rename)
+    nmap <buffer> <leader>lh <plug>(lsp-hover)
+    nmap <buffer> <leader>lp <plug>(lsp-previous-diagnostic)
+    nmap <buffer> <leader>ln <plug>(lsp-next-diagnostic)
+
+    " tab completion
+    imap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    imap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    imap <buffer> <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
 endfun
 
 if executable('clangd')
@@ -212,16 +216,15 @@ noremap j gj
 noremap k gk
 
 " buffer
-nnoremap <silent> <leader>bd :bdelete<CR>
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprev<CR>
-nnoremap <silent> <leader>bl :ls<CR>
+nnoremap <silent> <leader>bd :bdelete<CR>
 
 " quickfix
 nnoremap <silent> <leader>qo :copen<CR>
 nnoremap <silent> <leader>qc :cclose<CR>
-nnoremap <silent> <leader>q[ :cprevious<CR>
-nnoremap <silent> <leader>q] :cnext<CR>
+nnoremap <silent> <leader>qn :cnext<CR>
+nnoremap <silent> <leader>qp :cprevious<CR>
 
 " split switching
 nnoremap <C-j> <C-W>j
@@ -234,5 +237,5 @@ nnoremap <leader>eh :Sexplore<CR>
 nnoremap <leader>ev :Vexplore<CR>
 
 " terminal
-nnoremap <leader>tv :vsplit<CR>:terminal<cr>
-nnoremap <leader>ts :split<CR>:terminal<cr>
+nnoremap <leader>th :split <bar> :terminal<CR>
+nnoremap <leader>tv :vsplit <bar> :terminal<CR>
