@@ -67,19 +67,18 @@ SAVEHIST=2000
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-dirs-first true
 
-# Format terminal titles
-precmd() {
-    print -Pn "\e]2;%n@%m: %c\a" # Window -> user@host: current dir
-    print -Pn "\e]1;%c\a"        # Tabs -> current dir
-}
-
 # Prompt ======================================================================
 
 autoload -Uz colors && colors
 autoload -Uz vcs_info
 
 precmd() {
+    # enable VCS functionality for prompt
     vcs_info
+
+    # customize terminal titles
+    print -Pn "\e]2;%n@%m: %c\a" # Window -> user@host: current dir
+    print -Pn "\e]1;%c\a"        # Tabs -> current dir
 }
 
 zstyle ':vcs_info:*' enable git
