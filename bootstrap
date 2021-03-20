@@ -20,9 +20,9 @@ symlink() {
     mkdir -p "$config_dir"
 
     info_message "Symlinking files"
-    link "$script_dir/home/zshrc"       "$HOME/.zshrc"
-    link "$script_dir/home/zshenv"      "$HOME/.zshenv"
-    link "$script_dir/home/gitconfig"   "$HOME/.gitconfig"
+    link "$script_dir/zsh/zshrc"        "$HOME/.zshrc"
+    link "$script_dir/zsh/zshenv"       "$HOME/.zshenv"
+    link "$script_dir/git/gitconfig"    "$HOME/.gitconfig"
     link "$script_dir/nvim"             "$config_dir/nvim"
 }
 
