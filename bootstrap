@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 script_dir="$(cd $(dirname $0) && pwd)"
-source "$script_dir/etc/utility.sh"
+source "$script_dir/setup/utility.sh"
 
 install_packages() {
     if ! installed brew; then
@@ -11,7 +11,7 @@ install_packages() {
     fi
 
     info_message "Installing software packages"
-    brew bundle -v --no-lockfile --file="$script_dir/etc/Brewfile"
+    brew bundle -v --no-lockfile --file="$script_dir/setup/Brewfile"
     brew cleanup
 }
 
@@ -45,7 +45,7 @@ nvim_plugins() {
 
 system_settings() {
     info_message "Adjusting system settings"
-    source "$script_dir/etc/macos-defaults.sh"
+    source "$script_dir/setup/macos-defaults.sh"
 }
 
 print_message() {
