@@ -48,7 +48,7 @@ system_settings() {
     source "$script_dir/etc/macos-defaults.sh"
 }
 
-help_message() {
+print_message() {
     printf "Usage: %s [options]\n" "$(basename $0)"
     printf "Options:\n"
     printf "  -a,  --all                    Perform all actions\n"
@@ -63,7 +63,7 @@ help_message() {
 if [ "$#" -eq 0 ]; then
     printf "$(basename $0): "
     error_message "no flags were specified"
-    help_message
+    print_help
 else
     for flag in "$@"; do
         case $flag in
@@ -91,7 +91,7 @@ else
         *)
             printf "$(basename $0): "
             error_message "invalid flag \'$flag\'"
-            help_message
+            print_help
             shift;;
         esac
     done
