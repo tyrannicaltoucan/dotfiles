@@ -4,13 +4,15 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls="command ls -G"
     alias brewup="brew update && brew upgrade"
 else
-    alias ls="command ls --color=auto"
+    alias ls="command ls --color=auto --group-directories-first"
 fi
 
 alias ll="ls -loh"
 alias la="ls -lAoh"
-alias vim="nvim"
-alias tree="tree -a -I '.git|.clangd|.cache|build*|*party|external|lib' -C --dirsfirst"
+alias vim="command nvim"
+alias tree="command tree -C --dirsfirst"
+alias td="tree -d"
+alias rg='command rg --smart-case'
 alias reload="exec ${SHELL} -l"
 
 # create a directory and enter it immediately
@@ -28,12 +30,13 @@ man() {
     LESS_TERMCAP_us=$'\e[01;35m' \
     command man "$@"
 }
+
 # Simple archiving
-targz() {
-    tar -czvf "$1.tar.gz"
+tar() {
+    tar -czvf "$1.tar.gz" "$2"
 }
 
-untargz() {
+untar() {
     tar -xzvf "$1"
 }
 
