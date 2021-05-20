@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-script_dir="$(cd $(dirname $0) && pwd)"
-source "$script_dir/setup/utility.sh"
+bootstrap_path="$(cd $(dirname $0) && pwd)"
+source "$bootstrap_path/scripts/utility.sh"
 
 install_packages() {
     if ! installed brew; then
@@ -11,7 +11,7 @@ install_packages() {
     fi
 
     info_message "Installing software packages"
-    brew bundle -v --no-lockfile --file="$script_dir/setup/Brewfile"
+    brew bundle -v --no-lockfile --file="$bootstrap_path/scripts/install/Brewfile"
     brew cleanup
 }
 
@@ -20,10 +20,10 @@ symlink() {
     mkdir -p "$config_dir"
 
     info_message "Symlinking files"
-    link "$script_dir/zsh/zshrc"        "$HOME/.zshrc"
-    link "$script_dir/zsh/zshenv"       "$HOME/.zshenv"
-    link "$script_dir/git/gitconfig"    "$HOME/.gitconfig"
-    link "$script_dir/nvim"             "$config_dir/nvim"
+    link "$bootstrap_path/zsh/zshrc"        "$HOME/.zshrc"
+    link "$bootstrap_path/zsh/zshenv"       "$HOME/.zshenv"
+    link "$bootstrap_path/git/gitconfig"    "$HOME/.gitconfig"
+    link "$bootstrap_path/nvim"             "$config_dir/nvim"
 }
 
 nvim_plugins() {
@@ -45,7 +45,7 @@ nvim_plugins() {
 
 system_settings() {
     info_message "Adjusting system settings"
-    source "$script_dir/setup/macos-defaults.sh"
+    source "$bootstrap_path/scripts/prefs/mac-defaults.sh"
 }
 
 print_message() {
