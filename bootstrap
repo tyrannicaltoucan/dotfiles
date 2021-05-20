@@ -26,23 +26,6 @@ symlink() {
     link "$bootstrap_path/nvim"             "$config_dir/nvim"
 }
 
-nvim_plugins() {
-    if ! installed nvim; then
-        return 0
-    fi
-
-    info_message "Installing Neovim plugins"
-
-    local plug_path="$HOME/.local/share/nvim/site/autoload"
-    if [ ! -d "$plug_path" ]; then
-        pushd "$plug_path" > /dev/null
-        curl -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        popd > /dev/null
-    fi
-
-    nvim -c +PlugInstall +qa!
-}
-
 system_settings() {
     info_message "Adjusting system settings"
     source "$bootstrap_path/scripts/prefs/mac-defaults.sh"
@@ -54,7 +37,6 @@ print_message() {
     printf "  -a,  --all                    Perform all actions\n"
     printf "  -h,  --help                   Display this help message\n"
     printf "  -l,  --link                   Generate symbolic links\n"
-    printf "  -n,  --nvim-plugins           Install Neovim plugins\n"
     printf "  -p,  --packages               Install software packages\n"
     printf "  -s,  --settings               Adjust system and application settings\n"
     exit 1
@@ -70,7 +52,6 @@ else
         -a|--all)
             packages
             symlink
-            nvim_plugins
             system_settings
             shift;;
         -h|--help)
@@ -78,9 +59,6 @@ else
             shift;;
         -l|--link-files)
             symlink
-            shift;;
-        -n|--nvim-plugins)
-            nvim_plugins
             shift;;
         -p|--pacakges)
             packages
