@@ -23,6 +23,7 @@ symlink() {
     link "$bootstrap_path/zsh/zshrc"        "$HOME/.zshrc"
     link "$bootstrap_path/zsh/zshenv"       "$HOME/.zshenv"
     link "$bootstrap_path/git/gitconfig"    "$HOME/.gitconfig"
+    link "$bootstrap_path/tmux/tmux.conf"   "$HOME/.tmux.conf"
     link "$bootstrap_path/nvim"             "$config_dir/nvim"
 }
 
