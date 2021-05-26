@@ -6,6 +6,7 @@ brew 'git'
 brew 'neovim'
 brew 'ripgrep'
 brew 'trash'
+brew 'tmux'
 brew 'tree'
 
 cask 'appcleaner'
