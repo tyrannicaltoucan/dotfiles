@@ -11,7 +11,7 @@ install_packages() {
     fi
 
     info_message "Installing software packages"
-    brew bundle -v --no-lockfile --file="$bootstrap_path/scripts/install/Brewfile"
+    brew bundle -v --no-lock --file="$bootstrap_path/scripts/install/Brewfile"
     brew cleanup
 }
 
@@ -32,7 +32,7 @@ system_settings() {
     source "$bootstrap_path/scripts/prefs/mac-defaults.sh"
 }
 
-print_message() {
+print_help() {
     printf "Usage: %s [options]\n" "$(basename $0)"
     printf "Options:\n"
     printf "  -a,  --all                    Perform all actions\n"
@@ -51,7 +51,7 @@ else
     for flag in "$@"; do
         case $flag in
         -a|--all)
-            packages
+            install_packages
             symlink
             system_settings
             shift;;
@@ -62,7 +62,7 @@ else
             symlink
             shift;;
         -p|--pacakges)
-            packages
+            install_packages
             shift;;
         -s|--settings)
             system_settings
