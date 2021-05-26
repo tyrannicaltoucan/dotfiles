@@ -14,24 +14,30 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 # Disable the automatic termination of inactive apps
 defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
+# Don't restore windows when re-opening apps
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+
 # Disable various text "features"
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-# Enable trackpad tap clicking
+# -----------------------------------------------
+# Input settings
+# -----------------------------------------------
+
+# Enable tap clicking
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Disable the press-and-hold feature in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-
-# Change key repeat speed
 defaults write NSGlobalDomain KeyRepeat -int 1
-
-# Shorten the delay before activating key repeat
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Enable full keyboard access for all window controls
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 # -----------------------------------------------
 # Dock
@@ -42,10 +48,6 @@ defaults write com.apple.dock tilesize -int 48
 
 # Disable mouse based dock resizing
 defaults write com.apple.Dock size-immutable -bool true
-
-# Add a bottom-left hotcorner for turning off displays (activates when command key is pressed)
-defaults write com.apple.dock wvous-bl-corner -int 10
-defaults write com.apple.dock wvous-bl-modifier -int 1048576
 
 # Change the window minimizing animation
 defaults write com.apple.dock mineffect -string "scale"
@@ -66,23 +68,17 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 # Always show directories before files
 defaults write com.apple.finder _FXSortFoldersFirst -bool true
 
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
 # When performing a search, only search in the current directory
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 # Disable warnings when changing file extensions
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-# Disable warning when emptying the trash
-defaults write com.apple.finder WarnOnEmptyTrash -bool false
-
 # Show the user's hidden library directory
 chflags nohidden "$HOME/Library" && xattr -d com.apple.FinderInfo "$HOME/Library" &> /dev/null
-
-# Expand the following File Info panes
-defaults write com.apple.finder FXInfoPanesExpanded -dict \
-    General -bool true \
-    OpenWith -bool true \
-    Privileges -bool true
 
 # -----------------------------------------------
 # Safari
