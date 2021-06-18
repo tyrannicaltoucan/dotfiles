@@ -2,19 +2,16 @@
 
 call plug#begin(stdpath('data') . '/plugged')
 
-" general
 Plug 'arzg/vim-colors-xcode'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-signify'
-" fzf
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" lsp
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
 
 call plug#end()
 
@@ -60,9 +57,6 @@ set wildignore+=*cache,*.user,*.autosave,build*             " cache and editor f
 set wildignore+=*.dll,*.exe,*.dylib,*.app,*.o,*.obj,*.so    " compiled binary files/bundles
 set wildignore+=*.png,*.jpeg,*.jpg,*.dds                    " image files
 set wildignore+=.DS_Store                                   " macOS DirectoryServices files
-
-" nice and minimal completions
-set completeopt=menuone,noinsert,noselect
 
 if executable('rg')
     set grepprg=rg\ --vimgrep
@@ -112,95 +106,23 @@ set statusline+=\ %M\ %R        " modified/readonly flags
 set statusline+=%=              " switch side
 set statusline+=%l:%2c%6P\ %*   " line:colum & buffer percentage
 
-" vim-signify ==============================================
+" Plugin settings =========================================
 
+" signify
 let g:signify_sign_add    = '┃'
 let g:signify_sign_change = '┃'
 let g:signify_sign_delete = '•'
 let g:signify_sign_show_count = 0 " Don’t show deleted line count.
 
-" FZF ======================================================
+"indent-blankline
+let g:indent_blankline_char = '┃'
+let g:indent_blankline_buftype_exclude = ['terminal']
+let g:indent_blankline_filetype_exclude = ['help', 'markdown']
 
-let $FZF_DEFAULT_OPTS='--layout=reverse'
-let g:fzf_command_prefix = 'Fzf'
-let g:fzf_preview_window='' " disable the preview window
-let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.7 } }
-let g:fzf_colors = {
-    \ 'fg':      ['fg', 'Normal'],
-    \ 'bg':      ['bg', 'Normal'],
-    \ 'hl':      ['fg', 'Comment'],
-    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-    \ 'hl+':     ['fg', 'Statement'],
-    \ 'info':    ['fg', 'Type'],
-    \ 'border':  ['fg', 'Ignore'],
-    \ 'prompt':  ['fg', 'Character'],
-    \ 'pointer': ['fg', 'Exception'],
-    \ 'marker':  ['fg', 'Keyword'],
-    \ 'spinner': ['fg', 'Label'],
-    \ 'header':  ['fg', 'Comment'] }
-
-if executable('rg')
-    let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob
-        \ "!{.git,.cache,.clangd,build,out,*party,external,vendor}/"'
-endif
-
-nnoremap <leader>fb :FzfBuffers<CR>
-nnoremap <leader>fc :FzfColors<CR>
-nnoremap <leader>ff :FzfFiles<CR>
-nnoremap <leader>fh :FzfHistory<CR>
-nnoremap <leader>fr :FzfRg<CR>
-
-" Vim-LSP =================================================
-
-let g:lsp_semantic_enabled=1
-
-fun! LSPBufferSettings() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-
-    nmap <buffer> <leader>ld <plug>(lsp-definition)
-    nmap <buffer> <leader>lr <plug>(lsp-references)
-    nmap <buffer> <leader>li <plug>(lsp-implementation)
-    vmap <buffer> <leader>lf <plug>(lsp-document-range-format)
-    nmap <buffer> <leader>lF <plug>(lsp-document-format)
-    nmap <buffer> <leader>lR <plug>(lsp-rename)
-    nmap <buffer> <leader>lh <plug>(lsp-hover)
-    nmap <buffer> <leader>lp <plug>(lsp-previous-diagnostic)
-    nmap <buffer> <leader>ln <plug>(lsp-next-diagnostic)
-
-    " tab completion
-    imap <buffer> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    imap <buffer> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    imap <buffer> <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<CR>"
-endfun
-
-if executable('clangd')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd -header-insertion=never',
-        \ 'cmd': {server_info->['clangd']},
-        \ 'semantic_highlight': {
-        \   'entity.name.function.cpp': 'Function',
-        \   'entity.name.function.method.cpp': 'Function',
-        \   'entity.name.function.method.static.cpp': 'Function',
-        \   'entity.name.function.preprocessor.cpp': 'PreProc',
-        \   'entity.name.namespace.cpp': 'Identifier',
-        \   'entity.name.type.class.cpp': 'Identifier',
-        \   'entity.name.type.enum.cpp': 'Typedef',
-        \   'entity.name.type.enummember.cpp': 'Typedef',
-        \   'entity.name.type.template.cpp': 'Identifier',
-        \   'entity.name.type.typedef.cpp': 'Typedef',
-        \   'storage.type.primitive.cpp': 'Type',
-        \   'variable.other.enummember.cpp': 'Typedef',
-        \ },
-        \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-endif
-
-augroup lsp_install
-    autocmd!
-    autocmd User lsp_buffer_enabled call LSPBufferSettings()
-augroup END
+" lua plugins
+lua require('plugin/compe')
+lua require('plugin/lsp')
+lua require('plugin/telescope')
 
 " Keymaps =================================================
 
