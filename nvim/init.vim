@@ -17,7 +17,7 @@ call plug#end()
 
 " Editor Settings =========================================
 
-let g:mapleader = "\<space>"
+let mapleader = "\<Space>"
 
 set clipboard+=unnamed,unnamedplus  " use system clipboard
 set hidden                          " switch buffers without saving
@@ -80,21 +80,19 @@ augroup filetype_settings
     autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
 
-augroup file_save_settings
+augroup buffer_settings
     autocmd!
     autocmd BufWritePre * call StripTrailingSpaces()
+    autocmd TermOpen * startinsert
+    autocmd TermOpen * setlocal signcolumn=no nonumber nocursorline nocursorcolumn listchars=
 augroup END
+
+" Colorscheme ==============================================
 
 augroup colorscheme_mods
     autocmd!
     autocmd ColorScheme * hi Comment cterm=italic gui=italic
     autocmd ColorScheme * hi SpecialComment cterm=italic gui=italic
-augroup END
-
-augroup terminal_buffer_settings
-    autocmd!
-    autocmd TermOpen * startinsert
-    autocmd TermOpen * setlocal signcolumn=no nonumber nocursorline nocursorcolumn listchars=
 augroup END
 
 colorscheme xcodedark
@@ -142,21 +140,11 @@ nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprev<CR>
 nnoremap <silent> <leader>bd :bdelete<CR>
 
-" quickfix
-nnoremap <silent> <leader>qo :copen<CR>
-nnoremap <silent> <leader>qc :cclose<CR>
-nnoremap <silent> <leader>qn :cnext<CR>
-nnoremap <silent> <leader>qp :cprevious<CR>
-
 " split switching
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
-
-" netrw
-nnoremap <leader>eh :Sexplore<CR>
-nnoremap <leader>ev :Vexplore<CR>
 
 " terminal
 nnoremap <leader>th :split <bar> :terminal<CR>
