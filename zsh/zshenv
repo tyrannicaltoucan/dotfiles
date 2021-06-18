@@ -1,8 +1,6 @@
 export EDITOR="nvim"
 export VISUAL=$EDITOR
 
-export PATH="/opt/clangd/bin:$PATH"
-
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export LSCOLORS="ExGxFxdaCxDaDahbabacec"
     export HOMEBREW_AUTO_UPDATE_SECS=604800 # check for updates once a week
