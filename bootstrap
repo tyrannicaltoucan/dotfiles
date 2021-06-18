@@ -11,7 +11,7 @@ install_packages() {
     fi
 
     info_message "Installing software packages"
-    brew bundle -v --no-lock --file="$bootstrap_path/scripts/install/Brewfile"
+    brew bundle -v --no-lock --file="$bootstrap_path/scripts/Brewfile"
     brew cleanup
 }
 
@@ -29,7 +29,7 @@ symlink() {
 
 system_settings() {
     info_message "Adjusting system settings"
-    source "$bootstrap_path/scripts/prefs/mac-defaults.sh"
+    source "$bootstrap_path/scripts/mac-defaults.sh"
 }
 
 print_help() {
