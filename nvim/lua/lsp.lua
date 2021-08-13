@@ -43,4 +43,14 @@ lsp.clangd.setup {
     end
 }
 
--- cmake
+-- cmake-language-server
+lsp.cmake.setup {
+    on_init = lsp_on_init,
+    on_attach = lsp_on_attach
+}
+
+-- rust-analyzer
+lsp.rust_analyzer.setup {
+    on_init = lsp_on_init,
+    on_attach = lsp_on_attach
+}
