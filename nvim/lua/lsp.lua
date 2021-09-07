@@ -14,6 +14,8 @@ vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "•"})
 vim.fn.sign_define("LspDiagnosticsSignHint", {text = "•"})
 
 local lsp_on_attach = function(client, bufnr)
+    vim.opt_local.signcolumn = "yes"
+
     buf_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", keyopts)
     buf_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.lsp.buf.definition()<cr>", keyopts)
     buf_keymap(bufnr, "n", "<leader>lh", "<cmd>lua vim.lsp.buf.hover()<cr>", keyopts)
