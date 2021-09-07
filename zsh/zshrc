@@ -87,7 +87,8 @@ precmd() {
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:git:*' formats '%F{magenta}%b'
 
-PROMPT='%F{blue}%c %(?.%F{green}.%F{red})» %f'
+[[ "$SSH_CONNECTION" ]] && local userhost='%F{yellow}%n@%M%f '
+PROMPT='${userhost}%F{blue}%c %(?.%F{green}.%F{red})» %f'
 RPROMPT='${vcs_info_msg_0_}%f'
 
 # Local ZSH Settings ==========================================================
