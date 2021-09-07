@@ -24,12 +24,9 @@ return packer.startup(function()
     use { "tpope/vim-surround" }
 
     use {
-        "eddyekofo94/gruvbox-flat.nvim",
-        -- "mhartington/oceanic-next",
+        "EdenEast/nightfox.nvim",
         config = function()
-            vim.g.gruvbox_italic_keywords = false
-            vim.cmd([[colorscheme gruvbox-flat]])
-            -- vim.cmd([[colorscheme OceanicNext]])
+            vim.cmd("colorscheme nightfox")
         end
     }
 
