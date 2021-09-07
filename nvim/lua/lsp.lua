@@ -8,6 +8,9 @@ local lsp_on_init = function(client)
     client.config.flags.debounce_text_changes = 500
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "•"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "•"})
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "•"})
@@ -38,6 +41,7 @@ end
 -- clangd
 lsp.clangd.setup {
     cmd = { "clangd", "--background-index", "--header-insertion=never", "--clang-tidy" },
+    capabilities = capabilities,
     on_init = lsp_on_init,
     on_attach = function(client, bufnr)
         buf_keymap(bufnr, "n", "<leader>lg", "<cmd>ClangdSwitchSourceHeader<cr>", keyopts)
@@ -47,12 +51,14 @@ lsp.clangd.setup {
 
 -- cmake-language-server
 lsp.cmake.setup {
+    capabilities = capabilities,
     on_init = lsp_on_init,
     on_attach = lsp_on_attach
 }
 
 -- rust-analyzer
 lsp.rust_analyzer.setup {
+    capabilities = capabilities,
     on_init = lsp_on_init,
     on_attach = lsp_on_attach
 }

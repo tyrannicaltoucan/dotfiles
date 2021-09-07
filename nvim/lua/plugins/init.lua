@@ -65,11 +65,13 @@ return packer.startup(function()
     use { "neovim/nvim-lspconfig" }
 
     use {
-        "hrsh7th/nvim-compe",
-        event = "InsertEnter",
-        ft = { "bash", "c", "cpp", "python" },
+        "hrsh7th/nvim-cmp",
+        requires = {
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-nvim-lsp"
+        },
         config = function()
-            require("plugins.compe")
+            require("plugins.cmp")
         end
     }
 
