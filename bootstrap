@@ -37,7 +37,7 @@ configure_settings() {
 
 print_help() {
     echo "usage: $(basename "$0") [OPTION]"
-    echo "  -a,  --all                    Perform all actions"
+    echo "  -e,  --everything             Boostraps a new machine"
     echo "  -h,  --help                   Display this help message"
     echo "  -p,  --packages               Install software packages"
     echo "  -s,  --settings               Adjust system and application settings"
@@ -50,7 +50,7 @@ if [ "$#" -eq 0 ]; then
 else
     for flag in "$@"; do
         case $flag in
-        -a|--all)
+        -e|--everything)
             install_packages
             configure_settings
             shift;;
