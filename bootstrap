@@ -36,19 +36,17 @@ configure_settings() {
 }
 
 print_help() {
-    printf "Usage: %s [options]\n" "$(basename "$0")"
-    printf "Options:\n"
-    printf "  -a,  --all                    Perform all actions\n"
-    printf "  -h,  --help                   Display this help message\n"
-    printf "  -p,  --packages               Install software packages\n"
-    printf "  -s,  --settings               Adjust system and application settings\n"
-    exit 1
+    echo "usage: $(basename "$0") [OPTION]"
+    echo "  -a,  --all                    Perform all actions"
+    echo "  -h,  --help                   Display this help message"
+    echo "  -p,  --packages               Install software packages"
+    echo "  -s,  --settings               Adjust system and application settings"
 }
 
 if [ "$#" -eq 0 ]; then
-    printf "%s: " "$(basename "$0")"
-    error_message "no flags were specified"
-    print_help
+    echo "$(basename "$0"): no argument specified" >&2
+    echo "run \"$(basename "$0") --help\" for usage options" >&2
+    exit 1
 else
     for flag in "$@"; do
         case $flag in
@@ -66,10 +64,9 @@ else
             system_settings
             shift;;
         *)
-            printf "%s: " "$(basename "$0")"
-            error_message "invalid flag \'$flag\'"
-            print_help
-            shift;;
+            echo "$(basename "$0"): invalid argument '$flag'" >&2
+            echo "run \"$(basename "$0") --help\" for usage options" >&2
+            exit 1;;
         esac
     done
 fi
