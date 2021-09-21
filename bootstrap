@@ -61,7 +61,7 @@ else
             install_packages
             shift;;
         -s|--settings)
-            system_settings
+            configure_settings
             shift;;
         *)
             echo "$(basename "$0"): invalid argument '$flag'" >&2
