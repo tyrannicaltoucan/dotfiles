@@ -15,8 +15,13 @@ install_packages() {
     brew cleanup
 }
 
-symlink() {
-    local config_dir="$HOME/.config"
+configure_settings() {
+    link() {
+        echo "$1 → $2"
+        ln -snf "$1" "$2"
+    }
+
+    local config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
     mkdir -p "$config_dir"
 
     info_message "Symlinking files"
@@ -25,10 +30,8 @@ symlink() {
     link "$bootstrap_path/git/gitconfig"    "$HOME/.gitconfig"
     link "$bootstrap_path/tmux/tmux.conf"   "$HOME/.tmux.conf"
     link "$bootstrap_path/nvim"             "$config_dir/nvim"
-}
 
-system_settings() {
-    info_message "Adjusting system settings"
+    info_message "Adjusting system settings..."
     source "$bootstrap_path/scripts/mac-defaults.sh"
 }
 
@@ -37,7 +40,6 @@ print_help() {
     printf "Options:\n"
     printf "  -a,  --all                    Perform all actions\n"
     printf "  -h,  --help                   Display this help message\n"
-    printf "  -l,  --link                   Generate symbolic links\n"
     printf "  -p,  --packages               Install software packages\n"
     printf "  -s,  --settings               Adjust system and application settings\n"
     exit 1
@@ -52,14 +54,10 @@ else
         case $flag in
         -a|--all)
             install_packages
-            symlink
-            system_settings
+            configure_settings
             shift;;
         -h|--help)
             print_help
-            shift;;
-        -l|--link-files)
-            symlink
             shift;;
         -p|--pacakges)
             install_packages
