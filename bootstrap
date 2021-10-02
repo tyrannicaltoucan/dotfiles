@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 install_packages() {
+    if [ "$system" != "mac" ]; then
+        return
+    fi
+
     if ! is_installed brew; then
         action_msg "Installing Homebrew"
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -32,8 +36,10 @@ configure_settings() {
     link "$bootstrap_path/tmux/tmux.conf"   "$HOME/.tmux.conf"
     link "$bootstrap_path/nvim"             "$config_dir/nvim"
 
-    action_msg "Adjusting system settings..."
-    source "$bootstrap_path/scripts/mac-defaults.sh"
+    if [ "$system" == "mac" ]; then
+        action_msg "Adjusting system settings..."
+        source "$bootstrap_path/scripts/mac-defaults.sh"
+    fi
 }
 
 print_help() {
@@ -47,6 +53,7 @@ print_help() {
 main() {
     local bootstrap_path="$(cd "$(dirname "$0")" && pwd)"
     source "$bootstrap_path/scripts/utility.sh"
+    local system="$(system_type)"
 
     if [ "$#" -eq 0 ]; then
         echo "$(basename "$0"): no argument specified" >&2
