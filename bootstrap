@@ -14,14 +14,12 @@ install_packages() {
 
 configure_settings() {
     link() {
-        echo "$(tput bold)$(tput setaf 3)$1 → $2$(tput sgr0)"
-
         if [ -L "$2" ] && [ -e "$2" ]; then
-            echo "* Symlink already exists!"
-            return
+            echo "Symlink to '$2' already exists!"
+        else
+            echo "$1 → $2"
+            ln -sn "$1" "$2"
         fi
-
-        ln -sn "$1" "$2"
     }
 
     local config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
