@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-bootstrap_path="$(cd "$(dirname "$0")" && pwd)"
-source "$bootstrap_path/scripts/utility.sh"
-
 install_packages() {
     if ! installed brew; then
         info_message "Installing Homebrew"
@@ -49,30 +46,37 @@ print_help() {
     echo "  -s,  --settings               Adjust system and application settings"
 }
 
-if [ "$#" -eq 0 ]; then
-    echo "$(basename "$0"): no argument specified" >&2
-    echo "run \"$(basename "$0") --help\" for usage options" >&2
-    exit 1
-else
-    for flag in "$@"; do
-        case $flag in
-        -e|--everything)
-            install_packages
-            configure_settings
-            shift;;
-        -h|--help)
-            print_help
-            shift;;
-        -p|--pacakges)
-            install_packages
-            shift;;
-        -s|--settings)
-            configure_settings
-            shift;;
-        *)
-            echo "$(basename "$0"): invalid argument '$flag'" >&2
-            echo "run \"$(basename "$0") --help\" for usage options" >&2
-            exit 1;;
-        esac
-    done
-fi
+main() {
+    local bootstrap_path="$(cd "$(dirname "$0")" && pwd)"
+    source "$bootstrap_path/scripts/utility.sh"
+
+    if [ "$#" -eq 0 ]; then
+        echo "$(basename "$0"): no argument specified" >&2
+        echo "run \"$(basename "$0") --help\" for usage options" >&2
+        exit 1
+    else
+        for flag in "$@"; do
+            case $flag in
+            -e|--everything)
+                install_packages
+                configure_settings
+                shift;;
+            -h|--help)
+                print_help
+                shift;;
+            -p|--pacakges)
+                install_packages
+                shift;;
+            -s|--settings)
+                configure_settings
+                shift;;
+            *)
+                echo "$(basename "$0"): invalid argument '$flag'" >&2
+                echo "run \"$(basename "$0") --help\" for usage options" >&2
+                exit 1;;
+            esac
+        done
+    fi
+}
+
+main "$@"
