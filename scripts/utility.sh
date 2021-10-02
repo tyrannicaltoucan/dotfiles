@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
-info_message() {
-    printf "$(tput bold)$(tput setaf 6)$@$(tput sgr0)\n"
+action_msg () {
+    echo "$(tput bold)>> $(tput setaf 6)$@$(tput sgr0)"
 }
 
-installed() {
-    if command -v "$1" >/dev/null; then
-        return 0
-    else
-        return 1
-    fi
+is_installed() {
+    command -v "$1" >/dev/null
 }

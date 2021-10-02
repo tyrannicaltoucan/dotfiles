@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 install_packages() {
-    if ! installed brew; then
-        info_message "Installing Homebrew"
+    if ! is_installed brew; then
+        action_msg "Installing Homebrew"
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
         brew analytics off
     fi
 
-    info_message "Installing software packages"
+    action_msg "Installing software packages"
     brew bundle -v --no-lock --file="$bootstrap_path/scripts/Brewfile"
     brew cleanup
 }
@@ -27,14 +27,14 @@ configure_settings() {
     local config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
     mkdir -p "$config_dir"
 
-    info_message "Symlinking files"
+    action_msg "Symlinking files"
     link "$bootstrap_path/zsh/zshrc"        "$HOME/.zshrc"
     link "$bootstrap_path/zsh/zshenv"       "$HOME/.zshenv"
     link "$bootstrap_path/git/gitconfig"    "$HOME/.gitconfig"
     link "$bootstrap_path/tmux/tmux.conf"   "$HOME/.tmux.conf"
     link "$bootstrap_path/nvim"             "$config_dir/nvim"
 
-    info_message "Adjusting system settings..."
+    action_msg "Adjusting system settings..."
     source "$bootstrap_path/scripts/mac-defaults.sh"
 }
 
