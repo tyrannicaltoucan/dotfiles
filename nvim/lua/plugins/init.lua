@@ -59,7 +59,12 @@ return packer.startup(
             end
         }
 
-        use { 'neovim/nvim-lspconfig' }
+        use { 
+            'neovim/nvim-lspconfig',
+            config = function()
+                require('plugins.lspconfig')
+            end
+        }
 
         use {
             'hrsh7th/nvim-cmp',
