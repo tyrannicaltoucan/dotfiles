@@ -44,7 +44,6 @@ return packer.startup(
 
         use {
             'lukas-reineke/indent-blankline.nvim',
-            event = 'BufRead',
             config = function()
                 require('plugins.indent_blankline')
             end
@@ -52,7 +51,6 @@ return packer.startup(
 
         use {
             'lewis6991/gitsigns.nvim',
-            event = 'BufRead',
             requires = { 'nvim-lua/plenary.nvim' },
             config = function()
                 require('plugins.gitsigns')
@@ -81,7 +79,6 @@ return packer.startup(
 
         use {
             'nvim-treesitter/nvim-treesitter',
-            branch = '0.5-compat',
             run = ':TSUpdate',
             config = function()
                 require('plugins.treesitter')
