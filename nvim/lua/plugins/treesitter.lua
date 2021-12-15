@@ -1,13 +1,10 @@
 require('nvim-treesitter.configs').setup {
-    ensure_installed = {'bash', 'c', 'cpp', 'lua', 'python' },
-    highlight = {
-        enable = true
+    ensure_installed = { 'bash', 'c', 'cmake', 'comment', 'cpp', 'lua', 'python', 'rust', 'zig' },
+    highlight = { 
+        enable = true 
     },
-    incremental_selection = {
-        enable = true
-    },
-    indent = {
-        enable = true,
-        disable = { 'c', 'cpp' } -- 'clang-format' is used instead
+    indent = { 
+        enable = true, 
+        disable = { 'c', 'cpp' } -- use clang-format instead
     }
 }
