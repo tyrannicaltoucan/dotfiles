@@ -9,7 +9,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 packer.init {
-    compile_path = install_path .. '/plugin/packer_compiled.lua',
+    compile_path = fn.stdpath('data') .. '/site/pack/packer/packer_compiled.lua',
     display = {
         open_fn = function()
             return require('packer.util').float { border = 'single' }
