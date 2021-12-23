@@ -37,4 +37,4 @@ opt.softtabstop = indent_width
 opt.shiftwidth = indent_width
 
 -- statusline
-opt.statusline = ' %<%f %M %R %= %l/%L (%P) %*'
+opt.statusline = ' %<%f %M %R %= %l/%LL %6cC %6P %*'
