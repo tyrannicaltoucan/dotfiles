@@ -7,6 +7,7 @@ g.mapleader = ' '
 opt.backup = false
 opt.clipboard = 'unnamedplus'
 opt.colorcolumn = { 101 }
+opt.completeopt = { 'menu', 'menuone', 'noselect' }
 opt.cursorline = true
 opt.ignorecase = true
 opt.inccommand = 'nosplit'
