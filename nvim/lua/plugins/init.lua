@@ -24,9 +24,9 @@ return packer.startup(
         use { 'tpope/vim-surround' }
 
         use {
-            'EdenEast/nightfox.nvim',
+            'kvrohit/substrata.nvim',
             config = function()
-                vim.cmd('colorscheme nightfox')
+                vim.cmd('colorscheme substrata')
             end
         }
 
