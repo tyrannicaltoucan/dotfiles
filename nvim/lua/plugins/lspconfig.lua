@@ -32,10 +32,10 @@ local lsp_on_attach = function(client, bufnr)
     buf_keymap(bufnr, 'n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>')
     buf_keymap(bufnr, 'n', 'gI', '<cmd>lua vim.lsp.buf.implementation()<CR>')
     buf_keymap(bufnr, 'n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-    buf_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
     buf_keymap(bufnr, 'n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-    buf_keymap(bufnr, 'n', 'g[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-    buf_keymap(bufnr, 'n', 'g]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+    buf_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
+    buf_keymap(bufnr, 'n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+    buf_keymap(bufnr, 'n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
 
     if client.resolved_capabilities.document_formatting then
         buf_keymap(bufnr, 'n', 'gF', '<cmd>lua vim.lsp.buf.formatting()<CR>')
