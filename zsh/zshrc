@@ -45,12 +45,12 @@ man() {
 }
 
 # Simple archiving
-tar() {
+compress() {
     tar -czvf "$1.tar.gz" "$2"
 }
 
-untar() {
-    tar -xzvf "$1"
+extract() {
+    tar -xzvf "$1.tar.gz"
 }
 
 # ZSH Settings ================================================================
