@@ -12,7 +12,7 @@ print_help() {
 
 main() {
     local dotfiles_dir="$(cd "$(dirname "$0")" && pwd -P)"
-    source "$dotfiles_dir/scripts/utility.sh"
+    source "$dotfiles_dir/setup/utility.sh"
 
     if [ "$#" -eq 0 ]; then
         echo "$(basename "$0"): no argument specified" >&2
@@ -24,22 +24,22 @@ main() {
         for flag in "$@"; do
             case $flag in
             -e|--everything)
-                source "$dotfiles_dir/scripts/packages.sh"
-                source "$dotfiles_dir/scripts/symlinks.sh"
-                [ "$system" == "macos" ] && source "$dotfiles_dir/scripts/mac-defaults.sh"
+                source "$dotfiles_dir/setup/packages.sh"
+                source "$dotfiles_dir/setup/symlinks.sh"
+                [ "$system" == "macos" ] && source "$dotfiles_dir/setup/mac-defaults.sh"
                 shift;;
             -h|--help)
                 print_help
                 shift;;
             -p|--pacakges)
                 if [ "$system" == "macos"]; then
-                    source "$dotfiles_dir/scripts/packages.sh"
-                    source "$dotfiles_dir/scripts/mac-defaults.sh"
+                    source "$dotfiles_dir/setup/packages.sh"
+                    source "$dotfiles_dir/setup/mac-defaults.sh"
                 fi
                 shift;;
             -s|--settings)
-                source "$dotfiles_dir/scripts/symlinks.sh"
-                [ "$system" == "macos" ] && source "$dotfiles_dir/scripts/mac-defaults.sh"
+                source "$dotfiles_dir/setup/symlinks.sh"
+                [ "$system" == "macos" ] && source "$dotfiles_dir/setup/mac-defaults.sh"
                 shift;;
             *)
                 echo "$(basename "$0"): invalid argument '$flag'" >&2
