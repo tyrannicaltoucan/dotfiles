@@ -1,5 +1,5 @@
 setup_dir="$(dirname "${BASH_SOURCE[0]:-$0}")"
-source "$setup_dir/utility.sh"
+source "$setup_dir/utilities.sh"
 
 install_mac_packages() {
     if ! cmd_exists brew; then

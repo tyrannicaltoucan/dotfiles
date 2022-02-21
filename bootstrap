@@ -12,7 +12,7 @@ print_help() {
 
 main() {
     local dotfiles_dir="$(cd "$(dirname "$0")" && pwd -P)"
-    source "$dotfiles_dir/setup/utility.sh"
+    source "$dotfiles_dir/setup/utilities.sh"
 
     if [ "$#" -eq 0 ]; then
         print_error "no argument specified"

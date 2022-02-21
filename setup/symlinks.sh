@@ -2,7 +2,7 @@
 
 # set -eo
 
-source "$(dirname "${BASH_SOURCE[0]:-$0}")/utility.sh"
+source "$(dirname "${BASH_SOURCE[0]:-$0}")/utilities.sh"
 print_info "Creating symbolic links..."
 
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
