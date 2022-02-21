@@ -1,45 +1,6 @@
 #!/usr/bin/env bash
 
-install_packages() {
-    if [ "$system" != "mac" ]; then
-        return
-    fi
-
-    if ! is_installed brew; then
-        action_msg "Installing Homebrew"
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-        brew analytics off
-    fi
-
-    action_msg "Installing software packages"
-    brew bundle -v --no-lock --file="$bootstrap_path/scripts/Brewfile"
-    brew cleanup
-}
-
-configure_settings() {
-    link() {
-        if [ -L "$2" ] && [ -e "$2" ]; then
-            echo "Symlink to '$2' already exists!"
-        else
-            echo "$1 → $2"
-            ln -sn "$1" "$2"
-        fi
-    }
-
-    local config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
-    mkdir -p "$config_dir"
-
-    action_msg "Symlinking files"
-    link "$bootstrap_path/zsh/zshrc"        "$HOME/.zshrc"
-    link "$bootstrap_path/git/gitconfig"    "$HOME/.gitconfig"
-    link "$bootstrap_path/tmux/tmux.conf"   "$HOME/.tmux.conf"
-    link "$bootstrap_path/nvim"             "$config_dir/nvim"
-
-    if [ "$system" == "mac" ]; then
-        action_msg "Adjusting system settings..."
-        source "$bootstrap_path/scripts/mac-defaults.sh"
-    fi
-}
+set -eo pipefail
 
 print_help() {
     echo "usage: $(basename "$0") [OPTION]"
@@ -50,29 +11,35 @@ print_help() {
 }
 
 main() {
-    local bootstrap_path="$(cd "$(dirname "$0")" && pwd)"
-    source "$bootstrap_path/scripts/utility.sh"
-    local system="$(system_type)"
+    local dotfiles_dir="$(cd "$(dirname "$0")" && pwd -P)"
+    source "$dotfiles_dir/scripts/utility.sh"
 
     if [ "$#" -eq 0 ]; then
         echo "$(basename "$0"): no argument specified" >&2
         echo "run \"$(basename "$0") --help\" for usage options" >&2
         exit 1
     else
+        local system="$(system_type)"
+
         for flag in "$@"; do
             case $flag in
             -e|--everything)
-                install_packages
-                configure_settings
+                source "$dotfiles_dir/scripts/packages.sh"
+                source "$dotfiles_dir/scripts/symlinks.sh"
+                [ "$system" == "macos" ] && source "$dotfiles_dir/scripts/mac-defaults.sh"
                 shift;;
             -h|--help)
                 print_help
                 shift;;
             -p|--pacakges)
-                install_packages
+                if [ "$system" == "macos"]; then
+                    source "$dotfiles_dir/scripts/packages.sh"
+                    source "$dotfiles_dir/scripts/mac-defaults.sh"
+                fi
                 shift;;
             -s|--settings)
-                configure_settings
+                source "$dotfiles_dir/scripts/symlinks.sh"
+                [ "$system" == "macos" ] && source "$dotfiles_dir/scripts/mac-defaults.sh"
                 shift;;
             *)
                 echo "$(basename "$0"): invalid argument '$flag'" >&2
