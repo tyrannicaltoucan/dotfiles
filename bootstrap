@@ -15,8 +15,8 @@ main() {
     source "$dotfiles_dir/setup/utility.sh"
 
     if [ "$#" -eq 0 ]; then
-        echo "$(basename "$0"): no argument specified" >&2
-        echo "run \"$(basename "$0") --help\" for usage options" >&2
+        print_error "no argument specified"
+        echo "try '$(basename "$0") --help' for more info." >&2
         exit 1
     else
         local system="$(system_type)"
@@ -42,8 +42,8 @@ main() {
                 [ "$system" == "macos" ] && source "$dotfiles_dir/setup/mac-defaults.sh"
                 shift;;
             *)
-                echo "$(basename "$0"): invalid argument '$flag'" >&2
-                echo "run \"$(basename "$0") --help\" for usage options" >&2
+                print_error "invalid argument '$flag'"
+                echo "try '$(basename "$0") --help' for more info." >&2
                 exit 1;;
             esac
         done

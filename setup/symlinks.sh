@@ -3,7 +3,7 @@
 # set -eo
 
 source "$(dirname "${BASH_SOURCE[0]:-$0}")/utility.sh"
-action_msg "Creating symbolic links..."
+print_info "Creating symbolic links..."
 
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
 dotfiles_dir="$(cd "$(dirname "$0")" && pwd -P)"
@@ -11,7 +11,7 @@ mkdir -p "$config_dir"
 
 create_link() {
     if [ -L "$2" ] && [ -e "$2" ]; then
-        echo "Symlink to '$2' already exists!"
+        echo "Symlink '$2' already exists!"
     else
         echo "$1 → $2"
         ln -sn "$1" "$2"

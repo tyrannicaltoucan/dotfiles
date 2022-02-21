@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-action_msg () {
-    echo "$(tput bold)>> $(tput setaf 6)$@$(tput sgr0)"
+print_info() {
+    echo "$(tput bold)>> $(tput setaf 6)$*$(tput sgr0)"
+}
+
+print_error() {
+    echo "$(tput bold)$(tput setaf 1)error: $(tput sgr0)$*" >&2
 }
 
 is_installed() {

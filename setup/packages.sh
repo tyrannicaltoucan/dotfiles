@@ -3,7 +3,7 @@ source "$setup_dir/utility.sh"
 
 install_mac_packages() {
     if ! cmd_exists brew; then
-        action_msg "Installing Homebrew..."
+        print_info "Installing Homebrew..."
         /bin/bash -o "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
         brew analytics off
     fi
@@ -12,7 +12,7 @@ install_mac_packages() {
     brew cleanup
 }
 
-action_msg "Installing packages..."
+print_info "Installing packages..."
 
 local system="$(system_type)"
 if [ "$system" == "mac" ]; then
