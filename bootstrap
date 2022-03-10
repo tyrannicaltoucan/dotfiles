@@ -32,10 +32,7 @@ main() {
                 print_help
                 shift;;
             -p|--pacakges)
-                if [ "$system" == "macos"]; then
-                    source "$dotfiles_dir/setup/packages.sh"
-                    source "$dotfiles_dir/setup/mac-defaults.sh"
-                fi
+                source "$dotfiles_dir/setup/packages.sh"
                 shift;;
             -s|--settings)
                 source "$dotfiles_dir/setup/symlinks.sh"
