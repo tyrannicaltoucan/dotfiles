@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+source "$(dirname "${BASH_SOURCE[0]:-$0}")/utilities.sh"
+print_info "Adjusting macOS preferences..."
+
 # -----------------------------------------------
 # System
 # -----------------------------------------------
