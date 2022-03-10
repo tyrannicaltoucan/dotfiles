@@ -1,41 +1,28 @@
-local opt = vim.opt
-local g = vim.g
-
--- use spacebar as leader
-g.mapleader = ' '
-
-opt.backup = false
-opt.clipboard = 'unnamedplus'
-opt.colorcolumn = { 101 }
-opt.completeopt = { 'menu', 'menuone', 'noselect' }
-opt.cursorline = true
-opt.ignorecase = true
-opt.inccommand = 'nosplit'
-opt.list = true
-opt.listchars = { trail = '·', tab = '→ ' }
-opt.hidden = true
-opt.mouse = 'a'
-opt.number = true
-opt.pumheight = 10
-opt.scrolloff = 10
-opt.signcolumn = 'yes'
-opt.smartcase = true
-opt.splitbelow = true
-opt.splitright = true
-opt.swapfile = false
-opt.timeoutlen = 500
-opt.textwidth = 100
-opt.undofile = true
-opt.updatetime = 250
-opt.wrap = false
-opt.writebackup = false
-
--- indentation settings
-local indent_width = 4
-opt.expandtab = true
-opt.shiftround = true
-opt.softtabstop = indent_width
-opt.shiftwidth = indent_width
-
--- statusline
-opt.statusline = ' %<%f %M %R %= %l/%LL %6cC %6P %*'
+vim.opt.backup = false
+vim.opt.clipboard = { "unnamed", "unnamedplus" }
+vim.opt.colorcolumn = { 101 }
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.cursorline = true
+vim.opt.expandtab = true
+vim.opt.list = true
+vim.opt.listchars = { trail = "·", tab = "→ " }
+vim.opt.mouse = "a"
+vim.opt.number = true
+vim.opt.pumheight = 15
+vim.opt.scrolloff = 5
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 4
+vim.opt.showmode = false
+vim.opt.sidescrolloff = 5
+vim.opt.signcolumn = "yes"
+vim.opt.smartcase = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.swapfile = false
+vim.opt.tabstop = 4
+vim.opt.termguicolors = true
+vim.opt.timeoutlen = 500
+vim.opt.undofile = true
+vim.opt.updatetime = 250
+vim.opt.wrap = false
+vim.opt.writebackup = false

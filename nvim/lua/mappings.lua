@@ -1,35 +1,44 @@
-local keymap = require('utils').keymap
+local map = require("utilities").map
 
--- use gj/gk by default to better navigation on wrapped lines
-keymap('n', 'j', 'gj')
-keymap('n', 'k', 'gk')
+-- Use spacebar as leader key
+vim.g.mapleader = " "
 
--- trim trailing whitespace
-keymap('n', 'cw', [[:lua require('utils').buf_trim_whitespace()<CR>]])
+-- Better split navigation
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 
--- move selected lines
-keymap('v', '<c-j>', [[:m '>+1<CR>gv=gv]])
-keymap('v', '<c-k>', [[:m '<-2<CR>gv=gv]])
+-- Resize splits using arrows
+map("n", "<C-Up>", "<cmd>resize -2<CR>")
+map("n", "<C-Down>", "<cmd>resize +2<CR>")
+map("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
+map("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
 
--- easier exiting from terminal
-keymap('t', [[<esc><esc>]], [[<c-\><c-n>]])
+-- Buffer handling
+map("n", "<leader>[b", "<cmd>bnext<CR>")
+map("n", "<leader>]b", "<cmd>bprevious<CR>")
+map("n", "<leader>bd", "<cmd>bdelete<CR>")
 
--- open terminals
-keymap('n', '<leader>th', [[:exec 15 .. 'new +terminal' <CR>]])
-keymap('n', '<leader>tv', [[:exec 'vnew +terminal' <CR>]])
-keymap('n', '<leader>tw', [[:exec 'terminal' <CR>]])
+-- Open terminal
+map("n", "<C-t>", [[:exec 10 .. "new +terminal"<CR>]])
 
--- buffer handling
-keymap('n', '<leader>b]', ':bnext <CR>')
-keymap('n', '<leader>b[', ':bprev <CR>')
-keymap('n', '<leader>bd', ':bdelete <CR>')
-keymap('n', '<leader>bo', ':w | %bd | e# | bd# <CR>')
+-- Trim trailing whitespace
+map("n", "cw", [[<cmd>lua require("utilities").buf_trim_whitespace()<CR>]])
 
--- split navigation
-keymap('n', '<C-h>', '<C-w>h <CR>')
-keymap('n', '<C-j>', '<C-w>j <CR>')
-keymap('n', '<C-k>', '<C-w>k <CR>')
-keymap('n', '<C-l>', '<C-w>l <CR>')
+-- Move text up and down
+map("v", "<C-j>", [[<cmd>move ">+1<CR>gv=gv]])
+map("v", "<C-k>", [[<cmd>move "<-2<CR>gv=gv]])
+map("x", "<C-j>", [[<cmd>move ">+1<CR>gv=gv]])
+map("x", "<C-k>", [[<cmd>move "<-2<CR>gv=gv]])
 
--- disable ex mode
-keymap('n', 'Q', '<nop>')
+-- Telescope
+map("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
+map("n", "<leader>fb", "<cmd>Telescope buffers<CR>")
+map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>")
+map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>")
+
+-- NvimTree
+map("n", "<leader>te", "<cmd>NvimTreeToggle<CR>")
+map("n", "<leader>tf", "<cmd>NvimTreeFocus<CR>")
+map("n", "<leader>tr", "<cmd>NvimTreeRefresh<CR>")
