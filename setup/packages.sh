@@ -27,7 +27,7 @@ install_apt_packages() {
         trash-cli \
         tree \
         xclip \
-        zsh \
+        zsh
 
     sudo apt autoremove -y
 }
@@ -35,7 +35,7 @@ install_apt_packages() {
 print_info "Installing packages..."
 
 local system="$(system_type)"
-if [ "$system" == "mac" ]; then
+if [ "$system" == "macos" ]; then
     install_mac_packages
 elif [ "$system" == "debian" ]; then
     install_apt_packages
