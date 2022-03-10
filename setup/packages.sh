@@ -12,9 +12,31 @@ install_mac_packages() {
     brew cleanup
 }
 
+install_apt_packages() {
+    sudo apt update -y
+    sudo apt upgrade -y
+
+    sudo apt install -y \
+        build-essential \
+        cmake \
+        curl \
+        gdb \
+        git \
+        shellcheck \
+        tmux \
+        trash-cli \
+        tree \
+        xclip \
+        zsh \
+
+    sudo apt autoremove -y
+}
+
 print_info "Installing packages..."
 
 local system="$(system_type)"
 if [ "$system" == "mac" ]; then
     install_mac_packages
+elif [ "$system" == "debian" ]; then
+    install_apt_packages
 fi
