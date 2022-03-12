@@ -33,7 +33,6 @@ local theme = {
 
 local filename = {
     "filename",
-    path = 1,
     symbols = { modified = " ", readonly = " " },
 }
 
