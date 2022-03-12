@@ -16,8 +16,8 @@ map("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
 map("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
 
 -- Buffer handling
-map("n", "<leader>[b", "<cmd>bnext<CR>")
-map("n", "<leader>]b", "<cmd>bprevious<CR>")
+map("n", "<leader>bn", "<cmd>bnext<CR>")
+map("n", "<leader>bp", "<cmd>bprevious<CR>")
 map("n", "<leader>bd", "<cmd>bdelete<CR>")
 
 -- Open terminal
