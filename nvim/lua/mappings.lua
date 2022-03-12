@@ -37,8 +37,3 @@ map("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>")
 map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>")
 map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>")
-
--- NvimTree
-map("n", "<leader>te", "<cmd>NvimTreeToggle<CR>")
-map("n", "<leader>tf", "<cmd>NvimTreeFocus<CR>")
-map("n", "<leader>tr", "<cmd>NvimTreeRefresh<CR>")
