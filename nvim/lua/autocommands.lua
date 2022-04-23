@@ -1,23 +1,31 @@
-vim.cmd [[
-    augroup FileTypeSettings
-        autocmd!
-        autocmd FileType gitcommit,markdown setlocal spell
-        autocmd FileType gitcommit setlocal colorcolumn=51,73 nolist
-        autocmd FileType c,cpp setlocal commentstring=//\ %s
-        autocmd FileType makefile setlocal noexpandtab
-        autocmd FileType makefile,python setlocal colorcolumn=81
-        autocmd FileType json,yaml setlocal shiftwidth=2 tabstop=2
-    augroup END
+local special_settings = vim.api.nvim_create_augroup("SpecialSettings", {})
 
-    augroup TerminalSettings
-        autocmd!
-        autocmd TermOpen * setlocal nocursorcolumn signcolumn=no colorcolumn=0 nonumber nolist
-        autocmd Termopen * startinsert
-    augroup END
+vim.api.nvim_create_autocmd("TermOpen", {
+    group = special_settings,
+    desc = "Terminal tweaks",
+    callback = function()
+        vim.cmd("startinsert")
+        vim.opt_local.cursorcolumn= false
+        vim.opt_local.number = false
+    end
+})
 
-    augroup FileDetectSettings
-        autocmd!
-        autocmd BufRead,BufNewFile *.vs,*.fs,*.vert,*.frag,*.glsl set filetype=glsl
-        autocmd BufRead,BufNewFile .clang-format,.clang-tidy set filetype=yaml
-    augroup END
-]]
+local filetype_settings = vim.api.nvim_create_augroup("FileTypeSettings", {})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = filetype_settings,
+    desc = "GLSL filetypes",
+    pattern = { "*.fs", "*.vs", "*.frag", "*.vert", "*.glsl" },
+    callback = function()
+        vim.opt_local.filetype = "glsl"
+    end
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = filetype_settings,
+    desc = "Clang configuration filetypes",
+    pattern = { ".clang-tidy", ".clang-format" },
+    callback = function()
+        vim.opt_local.filetype = "yaml"
+    end
+})
