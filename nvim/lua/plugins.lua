@@ -24,8 +24,8 @@ local install_packages = function(use)
     }
 
     use {
-        "rebelot/kanagawa.nvim",
-        config = [[vim.cmd("colorscheme kanagawa")]]
+        "EdenEast/nightfox.nvim",
+        config = [[vim.cmd("colorscheme nightfox")]]
     }
 
     use {
