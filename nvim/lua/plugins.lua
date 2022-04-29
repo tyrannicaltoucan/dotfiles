@@ -14,11 +14,6 @@ local install_packages = function(use)
     use "kyazdani42/nvim-web-devicons"
 
     use {
-        "tikhomirov/vim-glsl",
-        ft = { "glsl" }
-    }
-
-    use {
         "windwp/nvim-autopairs",
         config = [[require("nvim-autopairs").setup()]]
     }
