@@ -1,5 +1,5 @@
 require("nvim-treesitter.configs").setup {
-    ensure_installed = { "bash", "c", "cmake", "comment", "cpp", "lua", "glsl", "python", "rust", "zig" },
+    ensure_installed = { "bash", "c", "cmake", "comment", "cpp", "lua", "glsl", "rust" },
     autopairs = { enable = true },
     highlight = { enable = true },
     indent = {
