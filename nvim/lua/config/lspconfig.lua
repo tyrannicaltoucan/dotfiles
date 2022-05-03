@@ -1,8 +1,6 @@
 local lspconfig = require("lspconfig")
 
 vim.diagnostic.config {
-    float = { source = "always", style = "minimal" },
-    signs = true,
     virtual_text = false,
 }
 
@@ -36,13 +34,8 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local servers = {
-    clangd = { cmd = { "clangd", "--header-insertion=never" } },
-    rust_analyzer = {}
+lspconfig.clangd.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = { "clangd", "--header-insertion=never" },
 }
-
-for server, config in pairs(servers) do
-    config.capabilities = capabilities
-    config.on_attach = on_attach
-    lspconfig[server].setup(config)
-end
