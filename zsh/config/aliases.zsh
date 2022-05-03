@@ -34,7 +34,7 @@ compress() {
 }
 
 extract() {
-    tar -xvzf "$1"
+    tar -xzf "$1"
     rm -i "$1"
 }
 
