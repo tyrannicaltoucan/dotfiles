@@ -39,15 +39,5 @@ extract() {
 }
 
 download() {
-    if [ -e "$HOME/Downloads" ]; then
-        pushd "$HOME/Downloads"
-    else
-        pushd "/tmp"
-    fi
-
-    local url="$1"
-    local filename="${url##/*}"
-    wget "$url" -o "$filename"
-
-    popd
+    curl -LO "$1"
 }
