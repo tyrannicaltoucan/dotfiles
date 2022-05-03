@@ -1,111 +1,12 @@
-# Exports =====================================================================
+export zsh_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export os_type=$(uname | tr '[:upper:]' '[:lower:]')
 
-export EDITOR="nvim"
-export VISUAL=$EDITOR
+for file in "$zsh_config_dir"/*.zsh; do
+    source "$file"
+done
+unset file
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    export LSCOLORS="ExGxFxdaCxDaDahbabacec"
-    # check for updates once a day (default is 5 minutes)
-    export HOMEBREW_AUTO_UPDATE_SECS=86400
-    # don't update installed packages when calling 'brew install'
-    export HOMEBREW_NO_INSTALL_UPGRADE=1
-fi
-
-# Aliases =====================================================================
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    alias ls="command ls -G"
-    alias brewup="brew update && brew upgrade"
-else
-    alias ls="command ls -v --color=auto --group-directories-first"
-fi
-
-alias ll="ls -loh"
-alias la="ls -lAoh"
-alias vim="command nvim"
-alias tree="command tree -C --dirsfirst"
-alias td="tree -d"
-alias rg='command rg --smart-case'
-alias reload="exec ${SHELL} -l"
-
-# create a directory and enter it immediately
-newdir() {
-    mkdir -p "$1" && cd "$1"
-}
-
-# Colorful manpages!
-man() {
-    LESS_TERMCAP_md=$'\e[01;36m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;33m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[01;35m' \
-    command man "$@"
-}
-
-# Simple archiving
-compress() {
-    tar -czvf "$1.tar.gz" "$2"
-}
-
-extract() {
-    tar -xzvf "$1.tar.gz"
-}
-
-# ZSH Settings ================================================================
-
-autoload -Uz compinit && compinit -i
-
-setopt no_case_glob            # use case insensitive globbing
-setopt correct                 # enable shell correction
-setopt always_to_end           # move the cursor to the end of a completed word
-setopt auto_menu               # display menu after successive tab press
-setopt auto_cd                 # change directories without the leading cd
-setopt prompt_subst            # enable prompt subsitution syntax
-
-setopt share_history           # share history between sessions
-setopt append_history          # append to history file
-setopt inc_append_history      # add commands to history as they are typed, instead of at shell exit
-setopt hist_expire_dups_first  # delete duplicates first
-setopt hist_ignore_dups        # don't store duplicates
-setopt hist_reduce_blanks      # remove blank lines from history
-
-unsetopt menu_complete         # don't auto-select the first entry
-unsetopt flowcontrol           # disable start and stop characters
-unsetopt beep                  # disable terminal bells
-
-HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
-HISTSIZE=2000
-SAVEHIST=2000
-
-# completion options
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' list-dirs-first true
-
-# Prompt ======================================================================
-
-autoload -Uz colors && colors
-autoload -Uz vcs_info
-
-precmd() {
-    # enable VCS functionality for prompt
-    vcs_info
-
-    # customize terminal titles
-    print -Pn "\e]2;%n@%m: %c\a" # Window -> user@host: current dir
-    print -Pn "\e]1;%c\a"        # Tabs -> current dir
-}
-
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats '%F{magenta}%b'
-
-[[ "$SSH_CONNECTION" ]] && local userhost='%F{yellow}%B%n@%M%b%f '
-PROMPT='${userhost}%F{blue}%B%c%b %(?.%F{green}.%F{red})» %f'
-RPROMPT='%B${vcs_info_msg_0_}%f%b'
-
-# Local ZSH Settings ==========================================================
-
+# load local settings
 if [ -f "$HOME/.zshrc.local" ]; then
     source "$HOME/.zshrc.local"
 fi
