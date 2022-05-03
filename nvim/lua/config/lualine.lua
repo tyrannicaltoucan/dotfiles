@@ -5,8 +5,8 @@ local filename = {
 
 local diagnostics = {
     "diagnostics",
-    sections = { "error", "warn", "info" },
-    symbols = { error = " ", warn = " ", info = " " },
+    sections = { "error", "warn"  },
+    symbols = { error = " ", warn = " " },
     colored = false,
     always_visible = true,
     cond = function()
