@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-source "$(dirname "${BASH_SOURCE[0]:-$0}")/utilities.sh"
-print_info "Adjusting macOS preferences..."
-
 # -----------------------------------------------
 # System
 # -----------------------------------------------
@@ -138,4 +135,4 @@ for app in "Dock" \
     killall "${app}" &> /dev/null
 done
 
-printf "Some changes may require a restart to take effect.\n"
+echo "Adjusted macOS settings"

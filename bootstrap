@@ -2,45 +2,85 @@
 
 set -eo pipefail
 
+dots_dir="$(cd "$(dirname "$0")" && pwd -P)"
+conf_dir="${XDG_CONFIG_DIR:=$HOME/.config}"
+
+print_fancy() {
+    echo "$(tput bold)* $(tput setaf 5)$*$(tput sgr0)"
+}
+
+install_software() {
+    print_fancy "Installing software..."
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        source "$dots_dir/setup/macos-packages.sh"
+    elif [ "$(lsb_release -si)" == "Ubuntu" ]; then
+        source "$dots_dir/setup/ubuntu-packages.sh"
+    else
+        echo "Nothing to install!"
+    fi
+}
+
+configure_settings() {
+    symlink() {
+        if [ -L "$2" ] && [ -e "$2" ]; then
+            echo "Skipping existing symlink: $2"
+        else
+            echo "$1 → $2"
+            ln -sn "$1" "$2"
+        fi
+    }
+
+    print_fancy "Adjusting application and system settings..."
+    mkdir -p "$conf_dir"
+
+    symlink "$dots_dir/nvim" "$conf_dir/nvim"
+    symlink "$dots_dir/tmux" "$conf_dir/tmux"
+    symlink "$dots_dir/zsh/config" "$conf_dir/zsh"
+    symlink "$dots_dir/git/gitconfig" "$HOME/.gitconfig"
+    symlink "$dots_dir/zsh/zshrc" "$HOME/.zshrc"
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        source "$dots_dir/setup/macos-defaults.sh"
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        source "$dots_dir/setup/linux-defaults.sh"
+    fi
+
+    echo "A reboot may be required for some settings to take effect."
+}
+
 print_help() {
     echo "usage: $(basename "$0") [OPTION]"
-    echo "  -e,  --everything             Boostraps a new machine"
-    echo "  -h,  --help                   Display this help message"
-    echo "  -p,  --packages               Install software packages"
-    echo "  -s,  --settings               Adjust system and application settings"
+    echo "  -a,  --all                Perform all actions"
+    echo "  -c,  --configure          Adjust application and system settings"
+    echo "  -h,  --help               Display this help message"
+    echo "  -i,  --install            Install software"
 }
 
 main() {
-    local dotfiles_dir="$(cd "$(dirname "$0")" && pwd -P)"
-    source "$dotfiles_dir/setup/utilities.sh"
-
     if [ "$#" -eq 0 ]; then
-        print_error "no argument specified"
-        echo "try '$(basename "$0") --help' for more info." >&2
+        echo "error: no argument specified"
+        echo "try '$(basename "$0") --help' for more info."
         exit 1
     else
-        local system="$(system_type)"
-
         for flag in "$@"; do
             case $flag in
-            -e|--everything)
-                source "$dotfiles_dir/setup/packages.sh"
-                source "$dotfiles_dir/setup/symlinks.sh"
-                [ "$system" == "macos" ] && source "$dotfiles_dir/setup/mac-defaults.sh"
+            -a|--all)
+                install_software
+                configure_settings
+                shift;;
+            -c|--configure)
+                configure_settings
                 shift;;
             -h|--help)
                 print_help
                 shift;;
-            -p|--pacakges)
-                source "$dotfiles_dir/setup/packages.sh"
-                shift;;
-            -s|--settings)
-                source "$dotfiles_dir/setup/symlinks.sh"
-                [ "$system" == "macos" ] && source "$dotfiles_dir/setup/mac-defaults.sh"
+            -i|--install)
+                install_software
                 shift;;
             *)
-                print_error "invalid argument '$flag'"
-                echo "try '$(basename "$0") --help' for more info." >&2
+                echo "error: invalid argument: $flag"
+                echo "try '$(basename "$0") --help' for more info."
                 exit 1;;
             esac
         done
