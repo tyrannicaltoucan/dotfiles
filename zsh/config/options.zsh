@@ -4,7 +4,6 @@ setopt no_case_glob            # use case insensitive globbing
 setopt correct                 # enable shell correction
 setopt always_to_end           # move the cursor to the end of a completed word
 setopt auto_menu               # display menu after successive tab press
-setopt auto_cd                 # change directories without the leading cd
 setopt prompt_subst            # enable prompt subsitution syntax
 
 setopt share_history           # share history between sessions

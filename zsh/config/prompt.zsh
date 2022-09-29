@@ -13,11 +13,7 @@ precmd() {
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:git:*' formats '%F{magenta}%b'
 
-# show `user@hostname` if the shell is operating from a SSH session
-local user_host=""
-if [[ "$SSH_CONNECTION" ]]; then
-    user_host='%F{yellow}%B%n@%M%b%f '
-fi
-
+# show "user@hostname" if the shell is operating from a SSH session
+[[ "$SSH_CONNECTION" ]] && local userhost='%F{yellow}%B%n@%M%b%f '
 PROMPT='${userhost}%F{blue}%B%c%b %(?.%F{green}.%F{red})» %f'
 RPROMPT='%B${vcs_info_msg_0_}%f%b'

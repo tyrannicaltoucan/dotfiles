@@ -7,7 +7,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 
-if [[ "$os_type" == "darwin" ]]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
     export LSCOLORS="ExGxFxdaCxDaDahbabacec"
     # check for updates once a day (default is 5 minutes)
     export HOMEBREW_AUTO_UPDATE_SECS=86400

@@ -1,12 +1,9 @@
-export zsh_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
-export os_type=$(uname | tr '[:upper:]' '[:lower:]')
-
-for file in "$zsh_config_dir"/*.zsh; do
+for file in "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh/*.zsh; do
     source "$file"
 done
 unset file
 
-# load local settings
+# Load local settings
 if [ -f "$HOME/.zshrc.local" ]; then
     source "$HOME/.zshrc.local"
 fi
