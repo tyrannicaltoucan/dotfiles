@@ -9,6 +9,11 @@ print_fancy() {
     echo "$(tput bold)* $(tput setaf 5)$*$(tput sgr0)"
 }
 
+update_dotfiles() {
+    print_fancy "Updating dotfiles..."
+    git pull origin master
+}
+
 install_software() {
     print_fancy "Installing software..."
 
@@ -55,6 +60,7 @@ print_help() {
     echo "  -c,  --configure          Adjust application and system settings"
     echo "  -h,  --help               Display this help message"
     echo "  -i,  --install            Install software"
+    echo "  -u,  --update             Pull latest dotfiles changes"
 }
 
 main() {
@@ -66,6 +72,7 @@ main() {
         for flag in "$@"; do
             case $flag in
             -a|--all)
+                update_dotfiles
                 install_software
                 configure_settings
                 shift;;
@@ -77,6 +84,9 @@ main() {
                 shift;;
             -i|--install)
                 install_software
+                shift;;
+            -u|--update)
+                update_dotfiles
                 shift;;
             *)
                 echo "error: invalid argument: $flag"
